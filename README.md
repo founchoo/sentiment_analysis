@@ -9,7 +9,10 @@ This is a final project for Data Mining course.
 - Detect fake news in public media platform.
 
 ### Language
-- Dart for both ML(machine learning) algorithm and UI(User Interface).
+- Dart for both ML(Machine Learning) algorithm and UI(User Interface).
+
+### Dataset
+- [Emotion dataset](https://www.kaggle.com/datasets/abdallahwagih/emotion-dataset) from [Kaggle](https://www.kaggle.com/)
 
 ## Why we choose Dart
 
@@ -24,3 +27,6 @@ Dart was very new for us and there was not enough reference we can take a look. 
 
 ### Stage 2
 Later, we found these packages: [ml_dataframe](https://pub.dev/packages/ml_dataframe), it provided a way to store and manipulate data; [ml_algo](https://pub.dev/packages/ml_algo), it provided lots of algorithms for ML; [stopwordies](https://pub.dev/packages/stopwordies), it provided English stop words, which could be used to identify relatively meaningless words in a sentence; [document_analysis](https://pub.dev/packages/document_analysis), it provided text vectorization method, which was very important when pre-processing text in data.
+
+We were luck because we also found a [tutorial](https://www.kaggle.com/code/ashokkumarpalivela/sentiment-analysis-with-machine-learning/notebook) that provided guideline on how to apply ML in Sentiment Analysis, but in Python.
+Then we started to follow it and write our own Dart code.
