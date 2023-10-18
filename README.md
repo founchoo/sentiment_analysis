@@ -10,6 +10,10 @@ Project Goal:
 
 Language: Dart for both ML(machine learning) algorithm and UI(User Interface).
 
+## Why we choose Dart
+
+At the very beginning, we planned to use Python for ML due to its 丰富的文档
+
 ## Libraries used
 
 - [ml_dataframe](https://pub.dev/packages/ml_dataframe)
