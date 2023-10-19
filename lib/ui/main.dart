@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:sentiment_analysis/rss.dart';
+import 'package:sentiment_analysis/ui/rss.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'about.dart';
@@ -191,41 +191,41 @@ class _RootPageState extends State<RootPage> with WindowListener {
             child: Scaffold(
               appBar: Platform.isWindows
                   ? AppBar(
-                      title: const DragToMoveArea(
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: kToolbarHeight,
-                        ),
-                      ),
-                      actions: [
-                        IconButton(
-                          onPressed: () {
-                            windowManager.minimize();
-                          },
-                          icon: const Icon(Icons.remove_outlined),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            if (await windowManager.isMaximized()) {
-                              windowManager.unmaximize();
-                            } else {
-                              windowManager.maximize();
-                            }
-                          },
-                          icon: const Icon(Icons.crop_square_outlined),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            windowManager.close();
-                          },
-                          icon: const Icon(Icons.close_outlined),
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    )
+                title: const DragToMoveArea(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: kToolbarHeight,
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      windowManager.minimize();
+                    },
+                    icon: const Icon(Icons.remove_outlined),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      if (await windowManager.isMaximized()) {
+                        windowManager.unmaximize();
+                      } else {
+                        windowManager.maximize();
+                      }
+                    },
+                    icon: const Icon(Icons.crop_square_outlined),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      windowManager.close();
+                    },
+                    icon: const Icon(Icons.close_outlined),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+              )
                   : (Platform.isAndroid
-                      ? AppBar(title: Text(destinations[_selectedIndex].title))
-                      : null),
+                  ? AppBar(title: Text(destinations[_selectedIndex].title))
+                  : null),
               body: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: switchSelectedPage(_selectedIndex),
@@ -237,19 +237,19 @@ class _RootPageState extends State<RootPage> with WindowListener {
       bottomNavigationBar: showNavigationDrawer
           ? null
           : BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: (int index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              items: destinations.map((Destination destination) {
-                return BottomNavigationBarItem(
-                  icon: Icon(destination.icon),
-                  activeIcon: Icon(destination.selectedIcon),
-                  label: destination.title,
-                );
-              }).toList()),
+          currentIndex: _selectedIndex,
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          items: destinations.map((Destination destination) {
+            return BottomNavigationBarItem(
+              icon: Icon(destination.icon),
+              activeIcon: Icon(destination.selectedIcon),
+              label: destination.title,
+            );
+          }).toList()),
     );
   }
 
