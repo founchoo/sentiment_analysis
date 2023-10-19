@@ -12,7 +12,7 @@ This is a final project for Data Mining course.
 - Dart for both ML(Machine Learning) algorithm and UI(User Interface).
 
 ### Dataset
-- [Emotion dataset](https://www.kaggle.com/datasets/abdallahwagih/emotion-dataset) from [Kaggle](https://www.kaggle.com/)
+- [Hate speech and offensive language dataset](https://www.kaggle.com/datasets/mrmorj/hate-speech-and-offensive-language-dataset) from [Kaggle](https://www.kaggle.com/)
 
 ## Why we choose Dart
 
