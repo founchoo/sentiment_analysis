@@ -72,4 +72,4 @@ But later, we found there was a built model in [huggingface](https://huggingface
 Things went badly at the last, we had some problems when following the doc, we searched and tried some solutions, but nothing got changed, so we gave up.
 
 ### Try TensorFlow
-As I mentioned below, TensorFlow was built for Python, although there was a library called [python_ffi](https://pub.dev/packages/python_ffi) to invoked any Python module in Dart, but we had better not use Python. Well, but we considered that the difficulty of achieving that(doc2vec) by Dart language, we decided to use Python.
+As I mentioned above, TensorFlow was built for Python, although there was a library called [python_ffi](https://pub.dev/packages/python_ffi) to invoked any Python module in Dart, but we had better not use Python. Well, but we considered that the difficulty of achieving that(doc2vec) by Dart language, we decided to use Python.
