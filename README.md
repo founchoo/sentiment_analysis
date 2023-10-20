@@ -31,9 +31,13 @@ Later, we found these packages: [ml_dataframe](https://pub.dev/packages/ml_dataf
 We were luck because we also found a [tutorial](https://www.kaggle.com/code/ashokkumarpalivela/sentiment-analysis-with-machine-learning/notebook) that provided guideline on how to apply ML in Sentiment Analysis, but in Python.
 Then we started to follow it and write our own Dart code.
 
-Every thing was fine but only the prediction was bad. When we load a large amount of data to train with TFIDF martix function(a method to vectorize text), it took a large amount of time and ROM and we fail to build model because of the lack of memory. We also found a solution which is to vectorize text by using our own method, but the result was even worser.
+Every thing was fine but only the prediction was bad. When we load a large amount of data to train with TFIDF martix function(a method to vectorize text, provided by document_analysis), it took a large amount of time and RAM and we fail to build model because of the lack of memory.
 
-In the case above, we feed the machine dataset like this:
+I want to simply explain the reason why TFIDF martix algorithm took so much time. What TFIDF martix algorithm did was to find out the frequency of each word appeared in each sentence. So, with the amount of words increasing, the dimension also increases, which will cause a rapid increase on calculation.
+
+We also found a solution which is to vectorize text by using our own method, but the result was even worser.
+
+In the case above, we fed the machine dataset like this:
 
 ```
 flutter: DataFrame (159571 x 2)
@@ -43,7 +47,7 @@ explanation why the edits ...       0.0
 d aww  he matches this ba ...       0.0
 ```
 
-`comment_text` was the comment that user posted and `insult` indicated whether this content was insultable or not.
+where `comment_text` was the comment that user posted and `insult` indicated whether this content was insultable or not.
 
 And after pre-processing, the dataset was changed to:
 
