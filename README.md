@@ -66,4 +66,5 @@ insult   vec_0   vec_1   vec_2   vec_3   vec_4   ...   vec_9999
 Our key function was to make text to vector so that the machine can calculate and build the modle. And this was also the most difficult problem we encounted in our project.
 
 ### Try TensorFlow Lite
-We found there was a built model in [huggingface](https://huggingface.co/bert-base-uncased), but it was built for TenserFlow, not TenserFlow Lite. However, the official document provided a guide on how to convert it, here is the [doc](https://huggingface.co/docs/optimum/exporters/tflite/usage_guides/export_a_model).
+The fact was that there was no doc2vec libraries in Dart, and all we could found was about Python or something like that.
+But later, we found there was a built model in [huggingface](https://huggingface.co/bert-base-uncased), but it was built for TenserFlow, not TenserFlow Lite. However, the official document provides a guide on how to convert it, here is the [doc](https://huggingface.co/docs/optimum/exporters/tflite/usage_guides/export_a_model).
