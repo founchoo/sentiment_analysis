@@ -25,7 +25,7 @@ And also we took UI into consideration that time, so Dart was our final choice.
 ### Try sentiment_dart
 Dart was very new for us and there was not enough reference we can take a look. However, we found a library called [sentiment_dart](https://pub.dev/packages/sentiment_dart) on [pub.dev](https://pub.dev/packages). It did solve our project but not in a way that ML involved and again it was easy for us so we continued to find something else that could help building our project.
 
-### Try override Python code
+### Try follow a Python guide
 Later, we found these packages: [ml_dataframe](https://pub.dev/packages/ml_dataframe), it provided a way to store and manipulate data; [ml_algo](https://pub.dev/packages/ml_algo), it provided lots of algorithms for ML; [stopwordies](https://pub.dev/packages/stopwordies), it provided English stop words, which could be used to identify relatively meaningless words in a sentence; [document_analysis](https://pub.dev/packages/document_analysis), it provided text vectorization method, which was very important when pre-processing text in data.
 
 We were luck because we also found a [tutorial](https://www.kaggle.com/code/ashokkumarpalivela/sentiment-analysis-with-machine-learning/notebook) that provided guideline on how to apply ML in Sentiment Analysis, but in Python.
@@ -67,4 +67,9 @@ Our key function was to make text to vector so that the machine can calculate an
 
 ### Try TensorFlow Lite
 The fact was that there was no doc2vec libraries in Dart, and all we could found was about Python or something like that.
-But later, we found there was a built model in [huggingface](https://huggingface.co/bert-base-uncased), but it was built for TenserFlow, not TenserFlow Lite. However, the official document provides a guide on how to convert it, here is the [doc](https://huggingface.co/docs/optimum/exporters/tflite/usage_guides/export_a_model).
+But later, we found there was a built model in [huggingface](https://huggingface.co/bert-base-uncased), but it was built for TenserFlow, which could be applied in Python rather than Dart. However, the official document provides a [guide](https://huggingface.co/docs/optimum/exporters/tflite/usage_guides/export_a_model) on how to convert it to TensorFlow Lite, and luckily there was a library called [tflite_flutter_plus](https://pub.dev/packages/tflite_flutter_plus) providing a interpreter between TensorFlow and Dart.
+
+Things went badly at the last, we had some problems when following the doc, we searched and tried some solutions, but nothing got changed, so we gave up.
+
+### Try TensorFlow
+As I mentioned below, TensorFlow was built for Python, although there was a library called [python_ffi](https://pub.dev/packages/python_ffi) to invoked any Python module in Dart, but we had better not use Python. Well, but we considered that the difficulty of achieving that(doc2vec) by Dart language, we decided to use Python.
