@@ -11,8 +11,8 @@ This is a final project for Data Mining course.
 ### Language
 - Dart for both ML(Machine Learning) algorithm and UI(User Interface).
 
-### Dataset
-- [Cleaned Toxic Comments](https://www.kaggle.com/datasets/fizzbuzz/cleaned-toxic-comments?select=train_preprocessed.csv) from [Kaggle](https://www.kaggle.com/)
+### Dataset (from [Kaggle](https://www.kaggle.com/))
+- [Cleaned Toxic Comments](https://www.kaggle.com/datasets/fizzbuzz/cleaned-toxic-comments?select=train_preprocessed.csv)
 - [Clean Fake News Dataset](https://www.kaggle.com/datasets/rakeshsahni/clean-fake-news-dataset?select=fake_news_train_clean.csv)
 
 ## Why I choose Dart
