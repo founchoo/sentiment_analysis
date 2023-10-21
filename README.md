@@ -13,6 +13,7 @@ This is a final project for Data Mining course.
 
 ### Dataset
 - [Cleaned Toxic Comments](https://www.kaggle.com/datasets/fizzbuzz/cleaned-toxic-comments?select=train_preprocessed.csv) from [Kaggle](https://www.kaggle.com/)
+- [Fake News Classification](https://www.kaggle.com/datasets/saurabhshahane/fake-news-classification?select=WELFake_Dataset.csv)
 
 ## Why I choose Dart
 
