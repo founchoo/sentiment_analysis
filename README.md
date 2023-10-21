@@ -77,7 +77,7 @@ Things went badly at the last, I had some problems when following the doc, I sea
 
 As I mentioned above, TensorFlow was built for Python, although there was a library called [python_ffi](https://pub.dev/packages/python_ffi) to invoked any Python module in Dart, but I had better not use Python. Well, but I considered that the difficulty of achieving that(doc2vec) by Dart language, I decided to use Python. But again, I failed, because it only supported pure Python code.
 
-So I gave up? No, I then found another way to run Python code. I used Python to build up a web server, and in Dart application, I could invoke TensorFlow algorithm just by `GET` method. What a genius!
+So I gave up? No, I then found another way to run Python code. I used Python to build up a [web server](https://github.com/founchoo/doc2vec_server), and in Dart application, I could invoke TensorFlow algorithm just by `GET` method. What a genius!
 
 This time, I fed the machine almost the same dataset besides the size, which was 12689 x 2, but it showed different outcomes:
 
