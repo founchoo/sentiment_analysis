@@ -1,11 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ml_algo/ml_algo.dart';
 import 'package:sentiment_analysis/algo/core.dart';
-import 'package:sentiment_analysis/algo/extension/data_frame_extension.dart';
-import 'package:sentiment_analysis/algo/extension/decision_tree_classifier_extension.dart';
-import 'package:sentiment_analysis/ui/extension/list_space_between_extension.dart';
+import 'package:sentiment_analysis/constant/solution.dart';
+import 'package:sentiment_analysis/util/list_space_between_extension.dart';
+
+Core core = Core(NormalOffensiveSolution());
+KnnClassifier? model;
+
+enum Selection { comments, news }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Function(bool, String) callback;
+
+  HomePage({required this.callback, super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,7 +22,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final myController = TextEditingController();
   String? _result;
-  Core core = Core();
+  final _statesController = MaterialStatesController();
+  Selection selection = Selection.comments;
+  static const headerStyle =
+      TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
+  static const sizedBox = SizedBox(height: 5);
 
   @override
   void dispose() {
@@ -23,33 +35,97 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  Future<void> changeSelection(Set<Selection> newSelection) async {
+    setState(() {
+      selection = newSelection.first;
+      _statesController.update(MaterialState.disabled, true);
+    });
+    switch (selection) {
+      case Selection.comments:
+        core.solution = NormalOffensiveSolution();
+      case Selection.news:
+        core.solution = RealFakeSolution();
+    }
+    widget.callback(true, 'Model is loading...');
+    model = await compute((Core c) async => await c.loadModel(), core);
+    if (model == null) {
+      throw Exception('Model is not found, please build model first!');
+    }
+
+    widget.callback(false, '');
+    setState(() {
+      if (model != null) {
+        _statesController.update(MaterialState.disabled, false);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Enter something to analyze',
-          ),
-          controller: myController,
+        const Text(
+          'Select model category',
+          style: headerStyle,
         ),
+        SegmentedButton<Selection>(
+          segments: const <ButtonSegment<Selection>>[
+            ButtonSegment<Selection>(
+                value: Selection.comments,
+                label: Text('Comments'),
+                icon: Icon(Icons.comment)),
+            ButtonSegment<Selection>(
+                value: Selection.news,
+                label: Text('News'),
+                icon: Icon(Icons.newspaper)),
+          ],
+          selected: <Selection>{selection},
+          onSelectionChanged: (Set<Selection> newSelection) async {
+            await changeSelection(newSelection);
+          },
+        ),
+        sizedBox,
+        const Text('Train dataset', style: headerStyle),
         FilledButton(
             onPressed: () async {
-              // Use code below to build model
-              (await (await core.loadData()).preProcessData()).buildModel();
+              widget.callback(true, 'Model is building...');
+
+              var dataFrame = await core.loadData();
+              dataFrame = await core.preProcessData(dataFrame);
+              model = await core.buildModel(dataFrame);
+              await core.saveModel(model!);
+
+              widget.callback(false, '');
+            },
+            child: const Text('Build model')),
+        sizedBox,
+        const Text('Predict', style: headerStyle),
+        Expanded(
+          child: TextField(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Enter something to predict',
+            ),
+            controller: myController,
+            maxLines: null,
+          ),
+        ),
+        FilledButton(
+            statesController: _statesController,
+            onPressed: () async {
+              widget.callback(true, 'Predicting...');
 
               // Use code below to read model
-              final result = await ((await core.loadModel())
-                  .predictOne(myController.text));
+              final result = await core.predictOne(model!, myController.text);
+
+              widget.callback(false, '');
 
               setState(() {
                 _result = result;
               });
             },
-            child: const Text("Analyze")),
+            child: const Text("Predict")),
         _result == null
             ? const Card(
                 child: ListTile(
@@ -67,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-      ].withSpaceBetween(height: 16),
+      ].withSpaceBetween(height: 10),
     );
   }
 }

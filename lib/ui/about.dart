@@ -7,7 +7,8 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text('Sentiment Analysis\n'
-          'Developed with Flutter'),
+          'Developed with Flutter\n'
+          'Data Mining course - Group 1 final project'),
     );
   }
 }

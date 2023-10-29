@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:sentiment_analysis/ui/rss.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'about.dart';
@@ -103,13 +102,22 @@ class _RootPageState extends State<RootPage> with WindowListener {
   NavigationRailLabelType labelType = NavigationRailLabelType.selected;
   double groupAlignment = 0.0;
 
+  bool busy = false;
+  String busyReason = '';
+
   late bool showNavigationDrawer;
 
   var destinations = const <Destination>[
-    Destination('Home', Icons.home_outlined, Icons.home),
-    Destination('Rss', Icons.rss_feed_outlined, Icons.rss_feed),
+    Destination('Playground', Icons.home_outlined, Icons.home),
     Destination('About', Icons.info_outline, Icons.info),
   ];
+
+  void callback(bool show, String text) {
+    setState(() {
+      busy = show;
+      busyReason = text;
+    });
+  }
 
   List<Widget> getNavDrawerChildren() {
     var list = destinations.map((Destination destination) {
@@ -137,13 +145,11 @@ class _RootPageState extends State<RootPage> with WindowListener {
   Widget switchSelectedPage(int index) {
     switch (index) {
       case 0:
-        return const HomePage();
+        return HomePage(callback: callback);
       case 1:
-        return const RssPage();
-      case 2:
         return const AboutPage();
       default:
-        return const HomePage();
+        return const AboutPage();
     }
   }
 
@@ -175,81 +181,109 @@ class _RootPageState extends State<RootPage> with WindowListener {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
+      body: Stack(
         children: [
-          if (showNavigationDrawer)
-            NavigationDrawer(
-              selectedIndex: _selectedIndex,
-              onDestinationSelected: (int index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              children: getNavDrawerChildren(),
-            ),
-          Expanded(
-            child: Scaffold(
-              appBar: Platform.isWindows
-                  ? AppBar(
-                title: const DragToMoveArea(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: kToolbarHeight,
+          Scaffold(
+            body: Row(
+              children: [
+                if (showNavigationDrawer)
+                  NavigationDrawer(
+                    selectedIndex: _selectedIndex,
+                    onDestinationSelected: (int index) {
+                      setState(() {
+                        _selectedIndex = index;
+                      });
+                    },
+                    children: getNavDrawerChildren(),
+                  ),
+                Expanded(
+                  child: Scaffold(
+                    appBar: Platform.isWindows
+                        ? AppBar(
+                            title: const DragToMoveArea(
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: kToolbarHeight,
+                              ),
+                            ),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  windowManager.minimize();
+                                },
+                                icon: const Icon(Icons.remove_outlined),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  if (await windowManager.isMaximized()) {
+                                    windowManager.unmaximize();
+                                  } else {
+                                    windowManager.maximize();
+                                  }
+                                },
+                                icon: const Icon(Icons.crop_square_outlined),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  windowManager.close();
+                                },
+                                icon: const Icon(Icons.close_outlined),
+                              ),
+                              const SizedBox(width: 8),
+                            ],
+                          )
+                        : (Platform.isAndroid
+                            ? AppBar(
+                                title: Text(destinations[_selectedIndex].title))
+                            : null),
+                    body: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 700),
+                          child: switchSelectedPage(_selectedIndex),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      windowManager.minimize();
+              ],
+            ),
+            bottomNavigationBar: showNavigationDrawer
+                ? null
+                : BottomNavigationBar(
+                    currentIndex: _selectedIndex,
+                    onTap: (int index) {
+                      setState(() {
+                        _selectedIndex = index;
+                      });
                     },
-                    icon: const Icon(Icons.remove_outlined),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      if (await windowManager.isMaximized()) {
-                        windowManager.unmaximize();
-                      } else {
-                        windowManager.maximize();
-                      }
-                    },
-                    icon: const Icon(Icons.crop_square_outlined),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      windowManager.close();
-                    },
-                    icon: const Icon(Icons.close_outlined),
-                  ),
-                  const SizedBox(width: 8),
+                    items: destinations.map((Destination destination) {
+                      return BottomNavigationBarItem(
+                        icon: Icon(destination.icon),
+                        activeIcon: Icon(destination.selectedIcon),
+                        label: destination.title,
+                      );
+                    }).toList()),
+          ),
+          if (busy)
+            const ModalBarrier(
+              dismissible: false,
+              color: Colors.black54,
+            ),
+          if (busy)
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 10),
+                  Text(busyReason),
                 ],
-              )
-                  : (Platform.isAndroid
-                  ? AppBar(title: Text(destinations[_selectedIndex].title))
-                  : null),
-              body: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: switchSelectedPage(_selectedIndex),
               ),
             ),
-          ),
         ],
       ),
-      bottomNavigationBar: showNavigationDrawer
-          ? null
-          : BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          items: destinations.map((Destination destination) {
-            return BottomNavigationBarItem(
-              icon: Icon(destination.icon),
-              activeIcon: Icon(destination.selectedIcon),
-              label: destination.title,
-            );
-          }).toList()),
     );
   }
 
