@@ -83,11 +83,18 @@ flutter: Pre-processing done in 0:43:46.870327
 
 We choose [KnnClassifier](https://pub.dev/documentation/ml_algo/latest/ml_algo/KnnClassifier-class.html) algorithm to build classification model.
 
+To build model, just call:
+```dart
+model = await core.buildModel(dataFrame);
+```
+
 ## Evaluation Metrics
 
 ## Results and Findings
 
 ## Limitations
+
+Because of the limitation of BERT model, we can only handle text with limited word size. We have tested that the size of 600(the length of a `String`) was acceptable.
 
 ## Reproducibility
 
