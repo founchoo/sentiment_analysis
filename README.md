@@ -25,6 +25,32 @@ In this section, we will only give you an example for `Cleaned Toxic Comments` d
 
 We only need `comment_text` and `insult` columns since the other columns(attributes) are not very important.
 
+Below is the code:
+```dart
+DataFrame dataFrame = await fromCsv(
+  'data/normal_offensive_data.csv',
+  columns: [0, 3]);
+```
+
+where `0` is the index of `comment_text` column and `3` is the index of `insult` column.
+
+#### Sampling
+
+We only collect 10% of the whole dataset to train our model to speed up the time of building model.
+
+Here is the code:
+```dart
+List<int> sampleCommentIndexes = [];
+for (var i = 0; i < dataFrame.rows.length; i++) {
+  if (i % sampleStep == 0) {
+    sampleCommentIndexes.add(i);
+  }
+}
+dataFrame = dataFrame.sampleFromRows(sampleCommentIndexes);
+```
+
+where `sampleStep` = 10.
+
 #### Text vectorization
 
 After reducing the dimensions of dataset, we feed machine dataset like this:
@@ -37,7 +63,7 @@ explanation why the edits ...       0.0
 d aww  he matches this ba ...       0.0
 ```
 
-where `comment_text` was the comment that user posted and `insult` indicated whether this content was insult-able or not.
+where `comment_text` is the comment that user posted and `insult` indicated whether this content was insult-able or not.
 
 Then the content in every `comment_text` will be sent to a [Python program](https://github.com/founchoo/doc2vec_server)(written by ourselves) by HTTP `GET` method and the response will be like this:
 
@@ -79,6 +105,10 @@ flutter: Pre-processing done in 0:43:46.870327
 
 ## Data Mining Technologies
 
+### Machine Learning
+
+We use supervised learning that makes use of class labels to predict information.
+
 ## Model Building
 
 We choose [KnnClassifier](https://pub.dev/documentation/ml_algo/latest/ml_algo/KnnClassifier-class.html) algorithm to build classification model.
@@ -98,7 +128,15 @@ Because of the limitation of BERT model, we can only handle text with limited wo
 
 ## Reproducibility
 
+1. Clone this repository
+2. Download datasets from [Kaggle](https://www.kaggle.com/) and put them in `data` directory
+3. Run `flutter run` in the root directory.
+
 ## Data Privacy and Ethical Considerations
+
+All datasets come from [Kaggle](https://www.kaggle.com/), which are public datasets.
+
+The contents in dataset may contain some aggressive words.
 
 ## References
 
