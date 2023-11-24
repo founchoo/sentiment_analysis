@@ -177,3 +177,5 @@ Although there is no doc2vec libraries in Dart, we find there is an official doc
 So maybe we can convert the doc2vec model to TensorFlow Lite model and use it in Dart directly.
 
 ## Presentation and Visualization
+
+See PowerPoint file.
