@@ -1,5 +1,8 @@
 # Documentation for Sentiment Analysis
 
+> [!WARNING]  
+> If anyone who want to only copy this project as his or her course project rather than learn and understand, do not contact me for further help.
+
 ## Project Overview
 
 This is a final project for Data Mining course.
