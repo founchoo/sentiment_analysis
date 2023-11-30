@@ -136,7 +136,7 @@ Because of the limitation of BERT model, we can only handle text with limited wo
 ## Reproducibility
 
 > [!IMPORTANT]  
-> Due to the limitation of size of files, we do not upload the files below:
+> Due to the limitation of size of files that GitHub can accept, we do not upload the files below:
 > - normal_offensive_model.json
 > - normal_offensive_data.csv
 > - real_fake_model.json
@@ -181,4 +181,4 @@ So maybe we can convert the doc2vec model to TensorFlow Lite model and use it in
 
 ## Presentation and Visualization
 
-See PowerPoint file.
+We presented it with PowerPoint, but we don't upload this file.
